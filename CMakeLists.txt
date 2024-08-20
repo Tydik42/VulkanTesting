@@ -1,0 +1,19 @@
+cmake_minimum_required(VERSION 3.25)
+
+set(vkTest_root ${CMAKE_CURRENT_SOURCE_DIR}) # vkTest
+
+project(vkTest)
+
+include(${vkTest_root}/cmake/options.cmake)
+
+add_subdirectory(${vkTest_engine_dir})
+add_subdirectory(${vkTest_thirdparty_dir})
+
+if(vkTest_BUILD_DEMOS)
+    add_subdirectory(${vkTest_demos_dir})
+endif()
+
+if(vkTest_COMPILE_SHADERS)
+    include(vkTestCompileShaders)
+    vkTest_compile_shaders(DIRECTORY ${vkTest_assets_dir}/shaders)
+endif()
