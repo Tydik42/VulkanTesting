@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 
-set(vkTest_root ${CMAKE_CURRENT_SOURCE_DIR}) # vkTest
+set(vkTest_root ${CMAKE_CURRENT_SOURCE_DIR}) # VulkanTesting
 
 project(vkTest)
 

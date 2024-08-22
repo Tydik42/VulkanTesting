@@ -1,11 +1,11 @@
-set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake")
 
 find_package(Vulkan REQUIRED)
-find_package(SDL2 REQUIRED)
-find_package(glm REQUIRED)
-find_package(fmt REQUIRED)
 find_package(VulkanMemoryAllocator REQUIRED)
-find_package(vk-bootstrap REQUIRED)
+find_package(vk-bootstrap CONFIG REQUIRED)
+find_package(SDL2 CONFIG REQUIRED)
+find_package(fmt CONFIG REQUIRED)
+find_package(glm CONFIG REQUIRED)
 
 add_library(libraries INTERFACE)
 add_library(vkTest::libraries ALIAS libraries)
