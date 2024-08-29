@@ -5,7 +5,7 @@ cd ./thirdparty/vcpkg
 ./bootstrap-vcpkg.sh
 ./integrate install
 
-./vcpkg install vulkan vulkan-headers vulkan-memory-allocator vk-bootstrap fmt glm sdl2
+./vcpkg install vulkan vulkan-headers vulkan-memory-allocator vk-bootstrap fmt glm sdl2[vulkan]
 
 cd ../../
 
