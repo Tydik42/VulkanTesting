@@ -3,6 +3,7 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake")
 find_package(Vulkan REQUIRED)
 find_package(VulkanMemoryAllocator REQUIRED)
 find_package(vk-bootstrap CONFIG REQUIRED)
+find_package(VulkanUtilityLibraries CONFIG REQUIRED)
 find_package(SDL2 CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
@@ -19,6 +20,7 @@ target_link_libraries(libraries INTERFACE
         fmt::fmt
         GPUOpen::VulkanMemoryAllocator
         vk-bootstrap::vk-bootstrap
+        Vulkan::SafeStruct Vulkan::LayerSettings Vulkan::UtilityHeaders Vulkan::CompilerConfiguration
 )
 
 target_include_directories(libraries SYSTEM INTERFACE
