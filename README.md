@@ -8,7 +8,7 @@ Start by cloning the repository with `git clone --recursive https://github.com/T
 
 If the repository was cloned non-recursively previously, use `git submodule update --init` to clone the necessary submodules.
 
-### 2. Вependencies:
+### 2. Dependencies:
 
 1. Install [Vulkan SDK](https://vulkan.lunarg.com/sdk/home).
 2. If you use linux, run the [vcpkg-install.sh](https://github.com/Tydik42/VulkanTesting/blob/main/scripts/vcpkg-install.sh) file. If the Vulkan SDK is installed properly, it will then download the Vulkan SDK libraries. (This may take a longer amount of time)
