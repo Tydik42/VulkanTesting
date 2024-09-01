@@ -14,6 +14,6 @@ if(vkTest_BUILD_DEMOS)
 endif()
 
 if(vkTest_COMPILE_SHADERS)
-    include(vkTestCompileShaders)
-    vkTest_compile_shaders(DIRECTORY ${vkTest_assets_dir}/shaders)
+    include(CompileShaders)
+    compile_shaders(DIRECTORY ${vkTest_assets_dir}/shaders)
 endif()

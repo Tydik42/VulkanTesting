@@ -7,7 +7,7 @@ string(TOLOWER ${vkTest_platform} vkTest_lower_platform)
 #========================================== Options =========================================#
 
 option(vkTest_BUILD_DEMOS                 "Build the demos"                    ON)
-option(vkTest_COMPILE_SHADERS             "Compile the shaders"                OFF)
+option(vkTest_COMPILE_SHADERS             "Compile the shaders"                ON)
 
 #======================================== Directories ========================================#
 
@@ -27,6 +27,8 @@ list(APPEND CMAKE_MODULE_PATH
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(ENV{ASSETS_DIR} ${vkTest_assets_dir})
 
 add_compile_definitions(
         vkTest_${vkTest_upper_platform}
