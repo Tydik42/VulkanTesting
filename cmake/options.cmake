@@ -6,15 +6,15 @@ string(TOLOWER ${vkTest_platform} vkTest_lower_platform)
 
 #========================================== Options =========================================#
 
-option(vkTest_BUILD_DEMOS                 "Build the demos"                    ON)
-option(vkTest_COMPILE_SHADERS             "Compile the shaders"                ON)
+option(vkTest_BUILD_DEMOS "Build the demos" ON)
+option(vkTest_COMPILE_SHADERS "Compile the shaders" ON)
 
 #======================================== Directories ========================================#
 
 set(vkTest_assets_dir ${vkTest_root}/assets CACHE PATH "Path to the assets directory")
 set(vkTest_engine_dir ${vkTest_root}/engine CACHE PATH "Path to the engine directory")
 set(vkTest_thirdparty_dir ${vkTest_root}/thirdparty CACHE PATH "Path to the thirdparty directory")
-set(vkTest_demos_dir  ${vkTest_root}/demos  CACHE PATH "Path to the demo directory")
+set(vkTest_demos_dir ${vkTest_root}/demos CACHE PATH "Path to the demo directory")
 
 #====================================== Configurations ======================================#
 

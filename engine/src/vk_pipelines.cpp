@@ -2,52 +2,36 @@
 #include <fstream>
 
 namespace vkutil {
-bool load_shader_module(const char* filePath,
-		VkDevice device,
-		VkShaderModule* outShaderModule)
-{
-	// open the file. With cursor at the end
-	std::ifstream file(filePath, std::ios::ate | std::ios::binary);
+bool load_shader_module(const char *filePath, VkDevice device, VkShaderModule *outShaderModule) {
 
-	if (!file.is_open())
-	{
-		return false;
-	}
+    std::ifstream file(filePath, std::ios::ate | std::ios::binary);
 
-	// find what the size of the file is by looking up the location of the cursor
-	// because the cursor is at the end, it gives the size directly in bytes
-	size_t fileSize = (size_t)file.tellg();
+    if (!file.is_open()) {
+        return false;
+    }
 
-	// spirv expects the buffer to be on uint32, so make sure to reserve an int
-	// vector big enough for the entire file
-	std::vector<uint32_t> buffer(fileSize/sizeof(uint32_t));
+    size_t fileSize = (size_t)file.tellg();
 
-	// put file cursor at beginning
-	file.seekg(0);
+    std::vector<uint32_t> buffer(fileSize / sizeof(uint32_t));
 
-	// load the entire file into the buffer
-	file.read((char*)buffer.data(), fileSize);
+    file.seekg(0);
 
-	// now that the file is loaded into the buffer, we can close it
-	file.close();
+    file.read((char *)buffer.data(), static_cast<int>(fileSize));
 
-	// create a new shader module, using the buffer we loaded
-	VkShaderModuleCreateInfo createInfo = {};
-	createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
-	createInfo.pNext = nullptr;
+    file.close();
 
-	// codeSize has to be in bytes, so multiply the ints in the buffer by size of
-	// int to know the real size of the buffer
-	createInfo.codeSize = buffer.size()*sizeof(uint32_t);
-	createInfo.pCode = buffer.data();
+    VkShaderModuleCreateInfo createInfo = {};
+    createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+    createInfo.pNext = nullptr;
 
-	// check that the creation goes well.
-	VkShaderModule shaderModule;
-	if (vkCreateShaderModule(device, &createInfo, nullptr, &shaderModule)!=VK_SUCCESS)
-	{
-		return false;
-	}
-	*outShaderModule = shaderModule;
-	return true;
+    createInfo.codeSize = buffer.size() * sizeof(uint32_t);
+    createInfo.pCode = buffer.data();
+
+    VkShaderModule shaderModule;
+    if (vkCreateShaderModule(device, &createInfo, nullptr, &shaderModule) != VK_SUCCESS) {
+        return false;
+    }
+    *outShaderModule = shaderModule;
+    return true;
 }
-} // vkutil
+} // namespace vkutil
