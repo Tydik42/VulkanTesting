@@ -6,4 +6,4 @@
 bin/
 out/
 build/
-!/include/config.h
+/include/config.h

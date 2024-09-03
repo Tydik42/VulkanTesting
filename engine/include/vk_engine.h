@@ -3,6 +3,8 @@
 #include "vk_types.h"
 #include "vk_initializers.h"
 #include "vk_images.h"
+#include "vk_descriptors.h"
+#include "vk_pipelines.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_vulkan.h>
@@ -98,13 +100,25 @@ public:
 	uint32_t _graphicsQueueFamily;
 	DeletionQueue _mainDeletionQueue;
 
+	DescriptorAllocator globalDescriptorAllocator;
+
+	VkDescriptorSet _drawImageDescriptors;
+	VkDescriptorSetLayout _drawImageDescriptorLayout;
+
+	VkPipeline _gradientPipeline;
+	VkPipelineLayout _gradientPipelineLayout;
+
 private:
 	void init_vulkan();
 	void init_swapchain();
 	void init_commands();
 	void init_sync_structures();
+	void init_descriptors();
+	void init_pipelines();
+	void init_background_pipelines();
+
 	void create_swapchain(uint32_t width, uint32_t height);
 	void destroy_swapchain();
 
-	void draw_background(VkCommandBuffer cmd);
+	void draw_background(VkCommandBuffer cmd) const;
 };
