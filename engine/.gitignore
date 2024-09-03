@@ -1,0 +1,9 @@
+*.exe
+*.dbg
+*.obj
+*.spv
+
+bin/
+out/
+build/
+!/include/config.h
