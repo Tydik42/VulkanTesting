@@ -8,6 +8,15 @@ find_package(SDL2 CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 
+set(IMGUI_DIR ${CMAKE_CURRENT_SOURCE_DIR}/imgui)
+add_library(imgui
+        ${IMGUI_DIR}/imgui.cpp
+        ${IMGUI_DIR}/imgui_draw.cpp
+        ${IMGUI_DIR}/imgui_widgets.cpp
+        ${IMGUI_DIR}/imgui_tables.cpp
+        ${IMGUI_DIR}/imgui_demo.cpp
+)
+
 add_library(libraries INTERFACE)
 add_library(vkTest::libraries ALIAS libraries)
 
@@ -21,6 +30,7 @@ target_link_libraries(libraries INTERFACE
         GPUOpen::VulkanMemoryAllocator
         vk-bootstrap::vk-bootstrap
         Vulkan::SafeStruct Vulkan::LayerSettings Vulkan::UtilityHeaders Vulkan::CompilerConfiguration
+        imgui
 )
 
 target_include_directories(libraries SYSTEM INTERFACE
@@ -29,4 +39,5 @@ target_include_directories(libraries SYSTEM INTERFACE
         ${glm_INCLUDE_DIRS}
         ${fmt_INCLUDE_DIRS}
         ${vma_INCLUDE_DIRS}
+        ${IMGUI_DIR}
 )
