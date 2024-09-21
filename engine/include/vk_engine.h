@@ -103,7 +103,6 @@ class VulkanEngine {
     VkPipeline _gradientPipeline;
     VkPipelineLayout _gradientPipelineLayout;
 
-    private:
     void init_vulkan();
     void init_swapchain();
     void init_commands();
