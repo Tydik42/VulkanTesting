@@ -18,7 +18,7 @@ void VulkanEngine::init() {
         fmt::print("Error: Unable to initialize SDL: {}", SDL_GetError());
     }
 
-    constexpr auto window_flags = (SDL_WindowFlags)(SDL_WINDOW_VULKAN);
+    constexpr auto window_flags = SDL_WINDOW_VULKAN;
 
     _window = SDL_CreateWindow(
         "Vulkan Engine", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, _windowExtent.width, _windowExtent.height, window_flags);
