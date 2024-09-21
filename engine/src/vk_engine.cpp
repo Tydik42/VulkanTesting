@@ -18,7 +18,7 @@ void VulkanEngine::init() {
         fmt::print("Error: Unable to initialize SDL: {}", SDL_GetError());
     }
 
-    auto window_flags = (SDL_WindowFlags)(SDL_WINDOW_VULKAN);
+    constexpr auto window_flags = (SDL_WindowFlags)(SDL_WINDOW_VULKAN);
 
     _window = SDL_CreateWindow(
         "Vulkan Engine", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, _windowExtent.width, _windowExtent.height, window_flags);
@@ -118,7 +118,7 @@ void VulkanEngine::create_swapchain(uint32_t width, uint32_t height) {
 void VulkanEngine::init_swapchain() {
     create_swapchain(_windowExtent.width, _windowExtent.height);
 
-    VkExtent3D drawImageExtent = { _windowExtent.width, _windowExtent.height, 1 };
+    const VkExtent3D drawImageExtent = { _windowExtent.width, _windowExtent.height, 1 };
 
     _drawImage.imageFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
     _drawImage.imageExtent = drawImageExtent;
@@ -129,7 +129,7 @@ void VulkanEngine::init_swapchain() {
     drawImageUsages |= VK_IMAGE_USAGE_STORAGE_BIT;
     drawImageUsages |= VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
-    VkImageCreateInfo rimg_info = vkinit::image_create_info(_drawImage.imageFormat, drawImageUsages, drawImageExtent);
+    const VkImageCreateInfo rimg_info = vkinit::image_create_info(_drawImage.imageFormat, drawImageUsages, drawImageExtent);
 
     VmaAllocationCreateInfo rimg_allocinfo = {};
     rimg_allocinfo.usage = VMA_MEMORY_USAGE_GPU_ONLY;
@@ -137,7 +137,7 @@ void VulkanEngine::init_swapchain() {
 
     vmaCreateImage(_allocator, &rimg_info, &rimg_allocinfo, &_drawImage.image, &_drawImage.allocation, nullptr);
 
-    VkImageViewCreateInfo rview_info =
+    const VkImageViewCreateInfo rview_info =
         vkinit::imageview_create_info(_drawImage.imageFormat, _drawImage.image, VK_IMAGE_ASPECT_COLOR_BIT);
 
     VK_CHECK(vkCreateImageView(_device, &rview_info, nullptr, &_drawImage.imageView));
@@ -151,7 +151,7 @@ void VulkanEngine::init_swapchain() {
 void VulkanEngine::destroy_swapchain() {
     vkDestroySwapchainKHR(_device, _swapchain, nullptr);
 
-    for (auto &_swapchainImageView : _swapchainImageViews) {
+    for (const auto &_swapchainImageView : _swapchainImageViews) {
 
         vkDestroyImageView(_device, _swapchainImageView, nullptr);
     }
@@ -159,7 +159,7 @@ void VulkanEngine::destroy_swapchain() {
 
 void VulkanEngine::init_commands() {
 
-    VkCommandPoolCreateInfo commandPoolInfo =
+    const VkCommandPoolCreateInfo commandPoolInfo =
         vkinit::command_pool_create_info(_graphicsQueueFamily, VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT);
 
     for (auto &_frame : _frames) {
@@ -174,8 +174,8 @@ void VulkanEngine::init_commands() {
 
 void VulkanEngine::init_sync_structures() {
 
-    VkFenceCreateInfo fenceCreateInfo = vkinit::fence_create_info(VK_FENCE_CREATE_SIGNALED_BIT);
-    VkSemaphoreCreateInfo semaphoreCreateInfo = vkinit::semaphore_create_info();
+    const VkFenceCreateInfo fenceCreateInfo = vkinit::fence_create_info(VK_FENCE_CREATE_SIGNALED_BIT);
+    const VkSemaphoreCreateInfo semaphoreCreateInfo = vkinit::semaphore_create_info();
 
     for (auto &_frame : _frames) {
         VK_CHECK(vkCreateFence(_device, &fenceCreateInfo, nullptr, &_frame._renderFence));
@@ -235,7 +235,7 @@ void VulkanEngine::draw() {
     VK_CHECK(vkResetCommandBuffer(get_current_frame()._mainCommandBuffer, 0));
 
     VkCommandBuffer cmd = get_current_frame()._mainCommandBuffer;
-    VkCommandBufferBeginInfo cmdBeginInfo = vkinit::command_buffer_begin_info(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
+    const VkCommandBufferBeginInfo cmdBeginInfo = vkinit::command_buffer_begin_info(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 
     _drawExtent.width = _drawImage.imageExtent.width;
     _drawExtent.height = _drawImage.imageExtent.height;
@@ -267,7 +267,7 @@ void VulkanEngine::draw() {
     VkSemaphoreSubmitInfo signalInfo =
         vkinit::semaphore_submit_info(VK_PIPELINE_STAGE_2_ALL_GRAPHICS_BIT, get_current_frame()._renderSemaphore);
 
-    VkSubmitInfo2 submit = vkinit::submit_info(&cmdinfo, &signalInfo, &waitInfo);
+    const VkSubmitInfo2 submit = vkinit::submit_info(&cmdinfo, &signalInfo, &waitInfo);
 
     VK_CHECK(vkQueueSubmit2(_graphicsQueue, 1, &submit, get_current_frame()._renderFence));
 
@@ -363,7 +363,7 @@ void VulkanEngine::init_background_pipelines() {
     VK_CHECK(vkCreatePipelineLayout(_device, &computeLayout, nullptr, &_gradientPipelineLayout));
 
     const char *assets_dir = ASSETS_DIR;
-    std::string shader = std::string(assets_dir) + "/shaders/gradient.comp.spv";
+    const std::string shader = std::string(assets_dir) + "/shaders/gradient.comp.spv";
 
     VkShaderModule computeDrawShader;
     if (!vkutil::load_shader_module(shader.c_str(), _device, &computeDrawShader)) {
