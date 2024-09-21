@@ -89,7 +89,7 @@ void VulkanEngine::init_vulkan() {
     allocatorInfo.flags = VMA_ALLOCATOR_CREATE_BUFFER_DEVICE_ADDRESS_BIT;
     vmaCreateAllocator(&allocatorInfo, &_allocator);
 
-    _mainDeletionQueue.push_function([&]() { vmaDestroyAllocator(_allocator); });
+    _mainDeletionQueue.push_function([&] { vmaDestroyAllocator(_allocator); });
 }
 
 void VulkanEngine::create_swapchain(uint32_t width, uint32_t height) {
@@ -142,7 +142,7 @@ void VulkanEngine::init_swapchain() {
 
     VK_CHECK(vkCreateImageView(_device, &rview_info, nullptr, &_drawImage.imageView));
 
-    _mainDeletionQueue.push_function([=, this]() {
+    _mainDeletionQueue.push_function([=, this] {
         vkDestroyImageView(_device, _drawImage.imageView, nullptr);
         vmaDestroyImage(_allocator, _drawImage.image, _drawImage.allocation);
     });
@@ -345,7 +345,7 @@ void VulkanEngine::init_descriptors() {
 
     vkUpdateDescriptorSets(_device, 1, &drawImageWrite, 0, nullptr);
 
-    _mainDeletionQueue.push_function([&]() {
+    _mainDeletionQueue.push_function([&] {
         globalDescriptorAllocator.destroy_pool(_device);
 
         vkDestroyDescriptorSetLayout(_device, _drawImageDescriptorLayout, nullptr);
@@ -387,7 +387,7 @@ void VulkanEngine::init_background_pipelines() {
 
     vkDestroyShaderModule(_device, computeDrawShader, nullptr);
 
-    _mainDeletionQueue.push_function([&]() {
+    _mainDeletionQueue.push_function([&] {
         vkDestroyPipelineLayout(_device, _gradientPipelineLayout, nullptr);
         vkDestroyPipeline(_device, _gradientPipeline, nullptr);
     });
