@@ -29,7 +29,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 file(GENERATE OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/engine/include/config.h
-        CONTENT "#define ASSETS_DIR \"${vkTest_assets_dir}\"\n")
+        CONTENT "#pragma once\n#define ASSETS_DIR \"${vkTest_assets_dir}\"\n")
 
 add_compile_definitions(
         vkTest_${vkTest_upper_platform}
