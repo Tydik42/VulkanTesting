@@ -16,7 +16,7 @@ bool load_shader_module(const char *filePath, VkDevice device, VkShaderModule *o
 
     file.seekg(0);
 
-    file.read((char *)buffer.data(), static_cast<int>(fileSize));
+    file.read(reinterpret_cast<char *>(buffer.data()), static_cast<std::streamsize>(fileSize));
 
     file.close();
 
