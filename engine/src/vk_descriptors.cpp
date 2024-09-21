@@ -21,7 +21,7 @@ VkDescriptorSetLayout DescriptorLayoutBuilder::build(
     info.pNext = pNext;
 
     info.pBindings = bindings.data();
-    info.bindingCount = (uint32_t)bindings.size();
+    info.bindingCount = static_cast<uint32_t>(bindings.size());
     info.flags = flags;
 
     VkDescriptorSetLayout set;
@@ -39,7 +39,7 @@ void DescriptorAllocator::init_pool(VkDevice device, uint32_t maxSets, std::span
     VkDescriptorPoolCreateInfo pool_info = { .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO };
     pool_info.flags = 0;
     pool_info.maxSets = maxSets;
-    pool_info.poolSizeCount = (uint32_t)poolSizes.size();
+    pool_info.poolSizeCount = static_cast<uint32_t>(poolSizes.size());
     pool_info.pPoolSizes = poolSizes.data();
 
     vkCreateDescriptorPool(device, &pool_info, nullptr, &pool);
