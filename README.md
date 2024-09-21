@@ -4,7 +4,7 @@
 
 ### 1. Downloading the repository:
 
-Start by cloning the repository with `git clone --recursive https://github.com/Tydik42/VulkanTesting.git`.
+Start by cloning the repository with `git clone --recurse-submodules https://github.com/Tydik42/VulkanTesting.git`.
 
 If the repository was cloned non-recursively previously, use `git submodule update --init` to clone the necessary submodules.
 
