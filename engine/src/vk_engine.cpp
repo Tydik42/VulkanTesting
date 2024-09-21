@@ -362,7 +362,7 @@ void VulkanEngine::init_background_pipelines() {
 
     VK_CHECK(vkCreatePipelineLayout(_device, &computeLayout, nullptr, &_gradientPipelineLayout));
 
-    const char *assets_dir = ASSETS_DIR;
+    const auto assets_dir = ASSETS_DIR;
     const std::string shader = std::string(assets_dir) + "/shaders/gradient.comp.spv";
 
     VkShaderModule computeDrawShader;
