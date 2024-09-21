@@ -12,6 +12,7 @@
 #include <VkBootstrap.h>
 
 #include <chrono>
+#include <ranges>
 #include <thread>
 
 struct DeletionQueue {
@@ -21,8 +22,8 @@ struct DeletionQueue {
 
     void flush() {
         // reverse iterate the deletion queue to execute all the functions
-        for (auto it = deletors.rbegin(); it != deletors.rend(); it++) {
-            (*it)(); // call functors
+        for (auto & deletor : std::ranges::reverse_view(deletors)) {
+            deletor(); // call functors
         }
 
         deletors.clear();
