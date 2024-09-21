@@ -52,7 +52,7 @@ constexpr unsigned int FRAME_OVERLAP = 2;
 class VulkanEngine {
     public:
     bool stop_rendering{ false };
-    struct SDL_Window *_window{ nullptr };
+    SDL_Window *_window{ nullptr };
     static VulkanEngine &Get();
 
     // initializes everything in the engine
