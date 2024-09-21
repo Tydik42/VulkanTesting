@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd ./thirdparty/vcpkg
+cd ../thirdparty/vcpkg
 
 ./bootstrap-vcpkg.sh
 ./integrate install
