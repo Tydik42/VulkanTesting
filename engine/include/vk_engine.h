@@ -12,6 +12,7 @@
 #include <VkBootstrap.h>
 
 #include <chrono>
+#include <ranges>
 #include <thread>
 
 struct DeletionQueue {
@@ -21,8 +22,8 @@ struct DeletionQueue {
 
     void flush() {
         // reverse iterate the deletion queue to execute all the functions
-        for (auto it = deletors.rbegin(); it != deletors.rend(); it++) {
-            (*it)(); // call functors
+        for (auto & deletor : std::ranges::reverse_view(deletors)) {
+            deletor(); // call functors
         }
 
         deletors.clear();
@@ -51,7 +52,7 @@ constexpr unsigned int FRAME_OVERLAP = 2;
 class VulkanEngine {
     public:
     bool stop_rendering{ false };
-    struct SDL_Window *_window{ nullptr };
+    SDL_Window *_window{ nullptr };
     static VulkanEngine &Get();
 
     // initializes everything in the engine
@@ -102,7 +103,6 @@ class VulkanEngine {
     VkPipeline _gradientPipeline;
     VkPipelineLayout _gradientPipelineLayout;
 
-    private:
     void init_vulkan();
     void init_swapchain();
     void init_commands();

@@ -21,7 +21,7 @@ VkDescriptorSetLayout DescriptorLayoutBuilder::build(
     info.pNext = pNext;
 
     info.pBindings = bindings.data();
-    info.bindingCount = (uint32_t)bindings.size();
+    info.bindingCount = static_cast<uint32_t>(bindings.size());
     info.flags = flags;
 
     VkDescriptorSetLayout set;
@@ -32,24 +32,25 @@ VkDescriptorSetLayout DescriptorLayoutBuilder::build(
 
 void DescriptorAllocator::init_pool(VkDevice device, uint32_t maxSets, std::span<PoolSizeRatio> poolRatios) {
     std::vector<VkDescriptorPoolSize> poolSizes;
-    for (PoolSizeRatio ratio : poolRatios) {
-        poolSizes.push_back(VkDescriptorPoolSize{ .type = ratio.type, .descriptorCount = uint32_t(ratio.ratio * maxSets) });
+    for (auto [type, ratio] : poolRatios) {
+        poolSizes.push_back(
+            VkDescriptorPoolSize{ .type = type, .descriptorCount = static_cast<uint32_t>(ratio * maxSets) });
     }
 
     VkDescriptorPoolCreateInfo pool_info = { .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO };
     pool_info.flags = 0;
     pool_info.maxSets = maxSets;
-    pool_info.poolSizeCount = (uint32_t)poolSizes.size();
+    pool_info.poolSizeCount = static_cast<uint32_t>(poolSizes.size());
     pool_info.pPoolSizes = poolSizes.data();
 
     vkCreateDescriptorPool(device, &pool_info, nullptr, &pool);
 }
 
-void DescriptorAllocator::clear_descriptors(VkDevice device) { vkResetDescriptorPool(device, pool, 0); }
+void DescriptorAllocator::clear_descriptors(VkDevice device) const { vkResetDescriptorPool(device, pool, 0); }
 
-void DescriptorAllocator::destroy_pool(VkDevice device) { vkDestroyDescriptorPool(device, pool, nullptr); }
+void DescriptorAllocator::destroy_pool(VkDevice device) const { vkDestroyDescriptorPool(device, pool, nullptr); }
 
-VkDescriptorSet DescriptorAllocator::allocate(VkDevice device, VkDescriptorSetLayout layout) {
+VkDescriptorSet DescriptorAllocator::allocate(VkDevice device, VkDescriptorSetLayout layout) const {
     VkDescriptorSetAllocateInfo allocInfo = { .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO };
     allocInfo.pNext = nullptr;
     allocInfo.descriptorPool = pool;

@@ -10,13 +10,13 @@ bool load_shader_module(const char *filePath, VkDevice device, VkShaderModule *o
         return false;
     }
 
-    size_t fileSize = (size_t)file.tellg();
+    const size_t fileSize = file.tellg();
 
     std::vector<uint32_t> buffer(fileSize / sizeof(uint32_t));
 
     file.seekg(0);
 
-    file.read((char *)buffer.data(), static_cast<int>(fileSize));
+    file.read(reinterpret_cast<char *>(buffer.data()), static_cast<int>(fileSize));
 
     file.close();
 
